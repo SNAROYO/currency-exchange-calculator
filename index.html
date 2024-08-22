@@ -99,12 +99,12 @@
 
             if (calculationType === 'rubToThb') {
                 rubAmount = amount;
-                const usdtAmount = rubAmount / rates.bybit_rate_rub;
+                const usdtAmount = rubAmount / rates.usdt_rate; // Изменено с bybit_rate_rub на usdt_rate
                 thbAmount = usdtAmount * rates.bybit_rate_thb;
             } else {
                 thbAmount = amount;
                 const usdtAmount = thbAmount / rates.bybit_rate_thb;
-                rubAmount = usdtAmount * rates.bybit_rate_rub;
+                rubAmount = usdtAmount * rates.usdt_rate; // Изменено с bybit_rate_rub на usdt_rate
             }
 
             console.log('rubAmount:', rubAmount, 'thbAmount:', thbAmount);
