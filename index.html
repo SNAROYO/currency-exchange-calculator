@@ -82,7 +82,8 @@
 
             console.log('Rates:', rates);
 
-            const usdtRate = parseFloat(rates.garantex_rate_usdt); // Преобразуем строку в число
+            const usdtRubRate = parseFloat(rates.usdt_rub); // Преобразуем строку в число
+            const usdtThbRate = parseFloat(rates.usdt_thb); // Преобразуем строку в число
 
             const currentDate = new Date().toLocaleString('ru-RU', { 
                 day: '2-digit', 
@@ -96,7 +97,8 @@
             resultElement.innerHTML = `
                 <p>Дата и время: ${currentDate}</p>
                 <p>Сумма в RUB: ${amount.toFixed(2)} ₽</p>
-                <p>Курс доллара (USDT/RUB): ${usdtRate.toFixed(4)}</p>
+                <p>Курс USDT/RUB: ${usdtRubRate.toFixed(4)}</p>
+                <p>Курс USDT/THB: ${usdtThbRate.toFixed(4)}</p>
             `;
             resultElement.style.display = 'block';
 
