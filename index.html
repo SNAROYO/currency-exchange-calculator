@@ -33,83 +33,67 @@
             background-color: #45a049;
         }
         #result {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e9f7ef;
-            border-radius: 5px;
             display: none;
+            background-color: #e0ffe0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="calculator">
         <h2>Калькулятор обмена валюты</h2>
-        <select id="giveReceive">
-            <option value="giveRUB">Отдаю RUB, Получаю THB</option>
-            <option value="receiveTHB">Получаю THB, Отдаю RUB</option>
+        <select id="currencyPair">
+            <option value="RUB-THB">Отдаю RUB, Получаю THB</option>
         </select>
         <select id="paymentMethod">
-            <option value="transfer">Банковский перевод</option>
+            <option value="bank">Банковский перевод</option>
             <option value="cash">Наличные</option>
         </select>
         <select id="calculationType">
-            <option value="rubToThb">У меня есть RUB, сколько THB я получу?</option>
-            <option value="thbToRub">Мне нужны THB, сколько RUB я должен заплатить?</option>
+            <option value="rub-to-thb">У меня есть RUB, сколько THB я получу?</option>
         </select>
-        <input type="number" id="amount" placeholder="Введите сумму">
+        <input type="number" id="amount" placeholder="Введите сумму" />
         <button onclick="calculate()">Рассчитать</button>
         <div id="result"></div>
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
+        let cachedRates = {};
 
         async function fetchRates() {
             try {
-                const response = await fetch('http://localhost:5000/get_rates'); // Убедитесь, что сервер работает и доступен
+                const response = await fetch('http://localhost:5000/get_rates');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error('Network response was not ok');
                 }
-                return await response.json();
+                cachedRates = await response.json();
+                console.log('Fetched rates:', cachedRates);
             } catch (error) {
                 console.error('Error fetching rates:', error);
-                alert('Ошибка при получении курсов валют. Пожалуйста, попробуйте позже.');
             }
         }
 
         async function calculate() {
-            const giveReceive = document.getElementById('giveReceive').value;
+            const currencyPair = document.getElementById('currencyPair').value;
             const paymentMethod = document.getElementById('paymentMethod').value;
             const calculationType = document.getElementById('calculationType').value;
             const amount = parseFloat(document.getElementById('amount').value);
 
-            if (!amount) {
-                alert('Пожалуйста, введите сумму');
-                return;
+            if (!cachedRates.usdt_rate || !cachedRates.bybit_rate_thb) {
+                await fetchRates();
             }
 
-            const rates = await fetchRates();
-            if (!rates) {
-                return;
+            let rubAmount = amount;
+            let thbAmount = 0;
+
+            if (currencyPair === 'RUB-THB' && calculationType === 'rub-to-thb') {
+                const usdtRate = parseFloat(cachedRates.usdt_rate);
+                const bybitRateThb = parseFloat(cachedRates.bybit_rate_thb);
+                thbAmount = (rubAmount / usdtRate) * bybitRateThb;
             }
 
-            console.log('Rates:', rates);
-
-            let result, rubAmount, thbAmount;
-
-            if (calculationType === 'rubToThb') {
-                rubAmount = amount;
-                const usdtAmount = rubAmount / rates.usdt_rate; // Изменено с bybit_rate_rub на usdt_rate
-                thbAmount = usdtAmount * rates.bybit_rate_thb;
-            } else {
-                thbAmount = amount;
-                const usdtAmount = thbAmount / rates.bybit_rate_thb;
-                rubAmount = usdtAmount * rates.usdt_rate; // Изменено с bybit_rate_rub на usdt_rate
-            }
-
-            console.log('rubAmount:', rubAmount, 'thbAmount:', thbAmount);
-
-            // Применение комиссий в зависимости от суммы и способа оплаты
             let fee = 0.007;  // 0.7% базовая комиссия
             if (rubAmount >= 1000000) fee = 0.005;
             else if (rubAmount >= 300000) fee = 0.006;
@@ -135,11 +119,10 @@
                 <p>Комиссия: ${(fee * 100).toFixed(2)}%</p>
             `;
             resultElement.style.display = 'block';
-
-            tg.sendData(resultElement.innerHTML); // Отправка данных в бот
         }
 
-        tg.ready();
+        // Fetch rates on page load
+        fetchRates();
     </script>
 </body>
 </html>
