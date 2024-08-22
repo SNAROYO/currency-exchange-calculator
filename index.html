@@ -44,7 +44,19 @@
 <body>
     <div class="calculator">
         <h2>Калькулятор обмена валюты</h2>
-        <input type="number" id="amount" placeholder="Введите сумму в RUB">
+        <select id="giveReceive">
+            <option value="giveRUB">Отдаю RUB, Получаю THB</option>
+            <option value="receiveTHB">Получаю THB, Отдаю RUB</option>
+        </select>
+        <select id="paymentMethod">
+            <option value="transfer">Банковский перевод</option>
+            <option value="cash">Наличные</option>
+        </select>
+        <select id="calculationType">
+            <option value="rubToThb">У меня есть RUB, сколько THB я получу?</option>
+            <option value="thbToRub">Мне нужны THB, сколько RUB я должен заплатить?</option>
+        </select>
+        <input type="number" id="amount" placeholder="Введите сумму">
         <button onclick="calculate()">Рассчитать</button>
         <div id="result"></div>
     </div>
@@ -58,9 +70,7 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const data = await response.json();
-                console.log('Fetched rates:', data); // Выводим отладочную информацию
-                return data;
+                return await response.json();
             } catch (error) {
                 console.error('Error fetching rates:', error);
                 alert('Ошибка при получении курсов валют. Пожалуйста, попробуйте позже.');
@@ -68,6 +78,9 @@
         }
 
         async function calculate() {
+            const giveReceive = document.getElementById('giveReceive').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const calculationType = document.getElementById('calculationType').value;
             const amount = parseFloat(document.getElementById('amount').value);
 
             if (!amount) {
@@ -82,8 +95,28 @@
 
             console.log('Rates:', rates);
 
-            const usdtRubRate = parseFloat(rates.usdt_rub); // Преобразуем строку в число
-            const usdtThbRate = parseFloat(rates.usdt_thb); // Преобразуем строку в число
+            let result, rubAmount, thbAmount;
+
+            if (calculationType === 'rubToThb') {
+                rubAmount = amount;
+                const usdtAmount = rubAmount / rates.bybit_rate_rub;
+                thbAmount = usdtAmount * rates.bybit_rate_thb;
+            } else {
+                thbAmount = amount;
+                const usdtAmount = thbAmount / rates.bybit_rate_thb;
+                rubAmount = usdtAmount * rates.bybit_rate_rub;
+            }
+
+            console.log('rubAmount:', rubAmount, 'thbAmount:', thbAmount);
+
+            // Применение комиссий в зависимости от суммы и способа оплаты
+            let fee = 0.007;  // 0.7% базовая комиссия
+            if (rubAmount >= 1000000) fee = 0.005;
+            else if (rubAmount >= 300000) fee = 0.006;
+
+            if (paymentMethod === 'cash') fee += 0.001;  // Дополнительные 0.1% для наличных
+
+            thbAmount *= (1 - fee);
 
             const currentDate = new Date().toLocaleString('ru-RU', { 
                 day: '2-digit', 
@@ -96,9 +129,10 @@
             const resultElement = document.getElementById('result');
             resultElement.innerHTML = `
                 <p>Дата и время: ${currentDate}</p>
-                <p>Сумма в RUB: ${amount.toFixed(2)} ₽</p>
-                <p>Курс USDT/RUB: ${usdtRubRate.toFixed(4)}</p>
-                <p>Курс USDT/THB: ${usdtThbRate.toFixed(4)}</p>
+                <p>Сумма в RUB: ${rubAmount.toFixed(2)} ₽</p>
+                <p>Сумма в THB: ${thbAmount.toFixed(2)} ฿</p>
+                <p>Обменный курс: 1 RUB = ${(thbAmount / rubAmount).toFixed(4)} THB</p>
+                <p>Комиссия: ${(fee * 100).toFixed(2)}%</p>
             `;
             resultElement.style.display = 'block';
 
