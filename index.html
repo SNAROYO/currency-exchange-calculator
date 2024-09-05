@@ -1,65 +1,292 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Currency Exchange Calculator</title>
+    <base href="https://websim.creativeengine.ai/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f0f0f0;
+            background-color: #000;
+            color: #ccc;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
-        .calculator {
-            background-color: white;
-            padding: 20px;
+        .container {
+            background-color: black;
+            border: 2px solid white;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        select, input, button {
+            padding: 20px;
+            max-width: 400px;
             width: 100%;
+            margin: 0 20px;
+            position: relative;
+            z-index: 1;
+            min-height: 500px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            max-width: 180px;
+        }
+        select, input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 1px;
+            background-color: #333;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 22px;
+        }
+        .currency-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .currency-container select {
+            width: 45%;
+        }
+        .arrow {
+            color: #fff;
+            font-size: 24px;
             padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+            background-color: #333;
+            border-radius: 25px;
+            padding: 3px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 22px;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        .tab.active {
+            color: #333;
+        }
+        .tab-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            background-color: #fff;
+            border-radius: 22px;
+            transition: all 0.3s ease;
+            width: calc(50% - 3px);
+            height: calc(100% - 6px);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #2a2a2a;
             border-radius: 5px;
+            display: none;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        input#amount {
+            width: 90%;
+            margin: 0 auto 20px auto;
+            display: block;
         }
         button {
+            width: 100%;
+            padding: 15px;
             background-color: #4CAF50;
             color: white;
             border: none;
+            border-radius: 23px;
             cursor: pointer;
+            font-size: 18px;
         }
         button:hover {
             background-color: #45a049;
         }
-        #result {
-            display: none;
-            background-color: #e0ffe0;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                min-height: auto;
+            }
+            select, input, button {
+                padding: 12px;
+                font-size: 16px;
+            }
+            .currency-container select {
+                width: 40%;
+            }
+            .arrow {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <h2>Калькулятор обмена валюты</h2>
-        <select id="currencyPair">
-            <option value="RUB-THB">Отдаю RUB, Получаю THB</option>
-        </select>
-        <select id="paymentMethod">
-            <option value="bank">Банковский перевод</option>
-            <option value="cash">Наличные</option>
-        </select>
-        <select id="calculationType">
-            <option value="rub-to-thb">У меня есть RUB, сколько THB я получу?</option>
-        </select>
-        <input type="number" id="amount" placeholder="Введите сумму" />
-        <button onclick="calculate()">Рассчитать</button>
-        <div id="result"></div>
+    <div id="particles-js"></div>
+    <div class="container">
+        <img src="logo.png" alt="Логотип" class="logo">
+        <div class="currency-container">
+            <select id="fromCurrency">
+                <option value="RUB">Рубли (RUB)</option>
+                <option value="THB">Баты (THB)</option>
+                <option value="USD">Доллары (USD)</option>
+                <option value="EUR">Евро (EUR)</option>
+            </select>
+            <span class="arrow">→</span>
+            <select id="toCurrency">
+                <option value="RUB">Рубли (RUB)</option>
+                <option value="THB">Баты (THB)</option>
+                <option value="USD">Доллары (USD)</option>
+                <option value="EUR">Евро (EUR)</option>
+            </select>
+        </div>
+        <div id="paymentMethodText" style="text-align: center; margin-bottom: 10px;">Я передам переводом на карту</div>
+        <div class="tabs" style="background-color: transparent; border: 2px solid #fff;">
+            <div class="tab active" data-tab="transfer">Перевод</div>
+            <div class="tab" data-tab="cash">Наличные</div>
+            <div class="tab-slider"></div>
+        </div>
+        <div id="transferContent" class="tab-content active">
+        </div>
+        <div id="cashContent" class="tab-content">
+        </div>
+        <input type="number" id="amount" placeholder="Введите сумму">
+        <button onclick="calculateExchange()">Рассчитать</button>
+        <div id="result" class="result"></div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 50,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    },
+                    polygon: {
+                        nb_sides: 5
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false,
+                    anim: {
+                        enable: false,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 40,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: false
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "top",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: false
+                    },
+                    onclick: {
+                        enable: false
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        const tabs = document.querySelectorAll('.tab');
+        const tabSlider = document.querySelector('.tab-slider');
+        const paymentMethodText = document.getElementById('paymentMethodText');
+
+        function updateTabSlider(activeTab) {
+            const tabWidth = activeTab.offsetWidth;
+            const tabLeft = activeTab.offsetLeft;
+            tabSlider.style.width = `${tabWidth}px`;
+            
+            if (activeTab.dataset.tab === 'transfer') {
+                tabSlider.style.transform = `translateX(${tabLeft - 2}px)`;
+                paymentMethodText.textContent = 'Я передам переводом на карту';
+            } else {
+                tabSlider.style.transform = `translateX(${tabLeft - 3}px)`;
+                paymentMethodText.textContent = 'Я передам деньги наличными';
+            }
+        }
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + 'Content').classList.add('active');
+                updateTabSlider(tab);
+            });
+
+            if (tab.classList.contains('active')) {
+                updateTabSlider(tab);
+            }
+        });
+
         let cachedRates = {};
 
         async function fetchRates() {
@@ -75,11 +302,16 @@
             }
         }
 
-        async function calculate() {
-            const currencyPair = document.getElementById('currencyPair').value;
-            const paymentMethod = document.getElementById('paymentMethod').value;
-            const calculationType = document.getElementById('calculationType').value;
+        async function calculateExchange() {
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+            const paymentMethod = document.querySelector('.tab.active').dataset.tab;
             const amount = parseFloat(document.getElementById('amount').value);
+
+            if (fromCurrency === toCurrency) {
+                alert('Пожалуйста, выберите разные валюты для обмена.');
+                return;
+            }
 
             if (!cachedRates.usdt_rate || !cachedRates.bybit_rate_thb) {
                 await fetchRates();
@@ -88,7 +320,7 @@
             let rubAmount = amount;
             let thbAmount = 0;
 
-            if (currencyPair === 'RUB-THB' && calculationType === 'rub-to-thb') {
+            if (fromCurrency === 'RUB' && toCurrency === 'THB') {
                 const usdtRate = parseFloat(cachedRates.usdt_rate);
                 const bybitRateThb = parseFloat(cachedRates.bybit_rate_thb);
                 thbAmount = (rubAmount / usdtRate) * bybitRateThb;
@@ -111,17 +343,18 @@
             });
 
             const resultElement = document.getElementById('result');
+            const exchangeRate = (rubAmount / thbAmount).toFixed(3);
             resultElement.innerHTML = `
-                <p>Дата и время: ${currentDate}</p>
-                <p>Сумма в RUB: ${rubAmount.toFixed(2)} ₽</p>
-                <p>Сумма в THB: ${thbAmount.toFixed(2)} ฿</p>
-                <p>Обменный курс: 1 RUB = ${(thbAmount / rubAmount).toFixed(4)} THB</p>
-                <p>Комиссия: ${(fee * 100).toFixed(2)}%</p>
+                Дата и время: ${currentDate}<br>
+                Отдаем: ${fromCurrency} ${rubAmount.toFixed(2)}<br>
+                Получаем: ${toCurrency} ${thbAmount.toFixed(2)}<br>
+                Способ оплаты: ${paymentMethod === 'transfer' ? 'Перевод ' + fromCurrency + ' на карту' : 'Передам ' + fromCurrency + ' наличными'}<br>
+                Курс: 1 ${toCurrency} = ${exchangeRate} ${fromCurrency}<br>
+                Комиссия: ${(fee * 100).toFixed(2)}%
             `;
             resultElement.style.display = 'block';
         }
 
-        // Fetch rates on page load
         fetchRates();
     </script>
 </body>
