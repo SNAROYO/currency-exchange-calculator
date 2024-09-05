@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <base href="https://websim.creativeengine.ai/">
+    <base href="Mury Calculator">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -17,31 +17,40 @@
             overflow: hidden;
         }
         .container {
-            background-color: black;
-            border: 2px solid white;
             border-radius: 10px;
             padding: 20px;
+            padding-bottom: 10%;
             max-width: 400px;
             width: 100%;
             margin: 0 20px;
             position: relative;
             z-index: 1;
             min-height: 500px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
         .logo {
             display: block;
             margin: 0 auto 20px auto;
             max-width: 180px;
         }
-        select, input {
+        select, input[type="number"] {
             width: 100%;
             padding: 15px;
             margin-bottom: 1px;
-            background-color: #333;
-            border: 1px solid #555;
+            background-color: #000;
+            border: 2px solid #fff;
             color: #fff;
             border-radius: 22px;
+            text-align: center;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            position: relative;
+        }
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23fff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: calc(100% - 15px) center;
+            background-size: 20px;
         }
         .currency-container {
             display: flex;
@@ -90,6 +99,7 @@
         }
         .tab-content {
             display: none;
+            background-color: black;
         }
         .tab-content.active {
             display: block;
@@ -97,9 +107,22 @@
         .result {
             margin-top: 30px;
             padding: 20px;
-            background-color: #2a2a2a;
-            border-radius: 5px;
+            background-color: #000;
+            border-radius: 22px;
             display: none;
+            border: 2px solid #4CAF50;
+            animation: borderColorChange 1s forwards;
+        }
+        .result.show {
+            display: block;
+        }
+        @keyframes borderColorChange {
+            from {
+                border-color: #4CAF50;
+            }
+            to {
+                border-color: #fff;
+            }
         }
         #particles-js {
             position: fixed;
@@ -117,15 +140,18 @@
         button {
             width: 100%;
             padding: 15px;
-            background-color: #4CAF50;
+            background-color: #45a049;
             color: white;
             border: none;
             border-radius: 23px;
             cursor: pointer;
             font-size: 18px;
+            box-shadow: 0 0 8px rgba(72, 255, 72, 0.4), 0 0 8px rgba(72, 255, 72, 0.4), 0 0 8px rgba(72, 255, 72, 0.4);
+            transition: background-color 0.1s ease, box-shadow 0.2s ease;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(72, 255, 72, 0.4), 0 0 10px rgba(72, 255, 72, 0.4), 0 0 10px rgba(72, 255, 72, 0.4);
         }
         @media (max-width: 600px) {
             .container {
@@ -148,7 +174,7 @@
 <body>
     <div id="particles-js"></div>
     <div class="container">
-        <img src="https://github.com/SNAROYO/currency-exchange-calculator/blob/main/logo.png?raw=true" alt="Логотип" class="logo">
+        <img src="logo.png" alt="Логотип" class="logo">
         <div class="currency-container">
             <select id="fromCurrency">
                 <option value="RUB">Рубли (RUB)</option>
@@ -165,7 +191,7 @@
             </select>
         </div>
         <div id="paymentMethodText" style="text-align: center; margin-bottom: 10px;">Я передам переводом на карту</div>
-        <div class="tabs" style="background-color: transparent; border: 2px solid #fff;">
+        <div class="tabs" style="background-color: black; border: 2px solid #fff;">
             <div class="tab active" data-tab="transfer">Перевод</div>
             <div class="tab" data-tab="cash">Наличные</div>
             <div class="tab-slider"></div>
@@ -174,7 +200,7 @@
         </div>
         <div id="cashContent" class="tab-content">
         </div>
-        <input type="number" id="amount" placeholder="Введите сумму">
+        <input type="number" id="amount" placeholder="Введите сумму" style="background-color: #000; border: 2px solid #fff; color: #fff; text-align: center; font-size: 15px;">
         <button onclick="calculateExchange()">Рассчитать</button>
         <div id="result" class="result"></div>
     </div>
@@ -352,7 +378,9 @@
                 Курс: 1 ${toCurrency} = ${exchangeRate} ${fromCurrency}<br>
                 Комиссия: ${(fee * 100).toFixed(2)}%
             `;
-            resultElement.style.display = 'block';
+            resultElement.classList.remove('show');
+            void resultElement.offsetWidth; // Trigger reflow to restart animation
+            resultElement.classList.add('show');
         }
 
         fetchRates();
