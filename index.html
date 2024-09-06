@@ -2,8 +2,7 @@
 <html>
 <head>
     <base href="Mury Calculator">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* Запрет прокрутки */
         }
         .container {
             border-radius: 10px;
@@ -205,8 +204,13 @@
         <button onclick="calculateExchange()">Рассчитать</button>
         <div id="result" class="result"></div>
         <script>
+            // Подключение к Telegram Web Apps API
             Telegram.WebApp.ready();
+
+            // Расширение приложения до максимальной высоты
             Telegram.WebApp.expand();
+
+            // Ваш существующий код
             fetchRates();
         </script>
     </div>
