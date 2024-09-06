@@ -2,6 +2,7 @@
 <html>
 <head>
     <base href="Mury Calculator">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <style>
         body {
@@ -12,7 +13,7 @@
             padding: 0;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start; /* Изменено с center на flex-start */
             align-items: center;
             overflow: hidden; /* Запрет прокрутки */
         }
@@ -26,6 +27,7 @@
             position: relative;
             z-index: 1;
             min-height: 500px;
+            margin-top: 20px; /* Добавлено для сдвига вверх */
         }
         .logo {
             display: block;
