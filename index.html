@@ -20,13 +20,13 @@
         .container {
             border-radius: 10px;
             padding: 20px;
-            padding-bottom: 20%; /* Увеличен отступ снизу для зарезервирования места */
+            padding-bottom: 10%;
             max-width: 400px;
             width: 100%;
             margin: 0 20px;
             position: relative;
             z-index: 1;
-            min-height: 500px;
+            min-height: 1000px;
             margin-top: 20px; /* Добавлено для сдвига вверх */
         }
         .logo {
@@ -114,13 +114,6 @@
             display: none;
             border: 2px solid #4CAF50;
             animation: borderColorChange 1s forwards;
-            position: fixed; /* Фиксированное позиционирование */
-            bottom: 10%; /* Привязка к нижней части экрана */
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 40px); /* Учитываем отступы */
-            max-width: 400px;
-            z-index: 2;
         }
         .result.show {
             display: block;
