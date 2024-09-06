@@ -11,7 +11,7 @@
             color: #ccc;
             margin: 0;
             padding: 0;
-            min-height: 60vh;
+            min-height: 100vh;
             display: flex;
             justify-content: flex-start; /* Изменено с center на flex-start */
             align-items: center;
@@ -20,7 +20,7 @@
         .container {
             border-radius: 10px;
             padding: 20px;
-            padding-bottom: 50%; /* Увеличен отступ снизу для зарезервирования места */
+            padding-bottom: 20%; /* Увеличен отступ снизу для зарезервирования места */
             max-width: 400px;
             width: 100%;
             margin: 0 20px;
@@ -114,6 +114,13 @@
             display: none;
             border: 2px solid #4CAF50;
             animation: borderColorChange 1s forwards;
+            position: fixed; /* Фиксированное позиционирование */
+            bottom: 0; /* Привязка к нижней части экрана */
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px); /* Учитываем отступы */
+            max-width: 400px;
+            z-index: 2;
         }
         .result.show {
             display: block;
