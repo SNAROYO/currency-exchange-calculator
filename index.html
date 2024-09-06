@@ -3,6 +3,7 @@
 <head>
     <base href="Mury Calculator">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,7 +50,7 @@
         select {
             background-image: url('data:image/svg+xml;utf8,<svg fill="%23fff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
             background-repeat: no-repeat;
-            background-position: calc(100% - 15px) center;
+            background-position: calc(100% - 10px) center;
             background-size: 20px;
         }
         .currency-container {
@@ -203,6 +204,11 @@
         <input type="number" id="amount" placeholder="Введите сумму" style="background-color: #000; border: 2px solid #fff; color: #fff; text-align: center; font-size: 15px;">
         <button onclick="calculateExchange()">Рассчитать</button>
         <div id="result" class="result"></div>
+        <script>
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+            fetchRates();
+        </script>
     </div>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
