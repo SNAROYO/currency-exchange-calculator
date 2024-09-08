@@ -147,10 +147,12 @@
             z-index: 0;
         }
         input#amount {
-            width: 90%;
+            width: 100%;
             margin: 0 auto 20px auto;
             display: block;
+            box-sizing: border-box;
         }
+
         button {
             width: 100%;
             padding: 15px;
@@ -238,7 +240,9 @@
         </div>
         <div id="cashContent" class="tab-content">
         </div>
-        <input type="text" id="amount" placeholder="Введите сумму" style="background-color: #000; border: 2px solid #fff; color: #fff; text-align: center; font-size: 15px;" inputmode="numeric" pattern="[0-9]*">
+        <div style="position: relative;">
+            <input type="text" id="amount" placeholder="Введите сумму" style="background-color: #000; border: 2px solid #fff; color: #fff; text-align: center; font-size: 15px;" inputmode="numeric" pattern="[0-9]*">
+        </div>
         <button onclick="calculateExchange()">Рассчитать</button>
         <div id="result" class="result"></div>
         <script>
@@ -414,6 +418,29 @@
                         }
                         clickCount = 0;
                     }, 500);
+                }
+            });
+
+            // Обновление placeholder и значения поля ввода суммы при изменении валюты
+            const fromCurrencySelect = document.getElementById('fromCurrency');
+            const amountInput = document.getElementById('amount');
+
+            fromCurrencySelect.addEventListener('change', () => {
+                const selectedCurrency = fromCurrencySelect.value;
+                amountInput.placeholder = `Введите сумму (${selectedCurrency})`;
+            });
+
+            // Инициализация placeholder и значения поля ввода суммы при загрузке страницы
+            document.addEventListener('DOMContentLoaded', () => {
+                const selectedCurrency = fromCurrencySelect.value;
+                amountInput.placeholder = `Введите сумму (${selectedCurrency})`;
+            });
+
+            // Обработчик ввода для поля суммы с обновлением валюты
+            amountInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\s+/g, ''); // Удаление всех символов, кроме цифр
+                if (!isNaN(value) && value.length > 0) {
+                    e.target.value = formatNumberWithSpaces(value);
                 }
             });
         </script>
