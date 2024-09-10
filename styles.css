@@ -1,0 +1,200 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #ccc;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: flex-start; /* Изменено с center на flex-start */
+    align-items: start;
+    /*overflow: hidden; /* Запрет прокрутки */
+}
+.container {
+    border-radius: 10px;
+    padding: 20px;
+    padding-bottom: 50%;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 20px;
+    position: relative;
+    z-index: 1;
+    min-height: 1000px;
+    margin-top: 20px; /* Добавлено для сдвига вверх */
+}
+.logo-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.logo-cube {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.logo-text {
+    width: 200px;
+    height: auto;
+}
+select, input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 1px;
+    background-color: #000;
+    border: 2px solid #fff;
+    color: #fff;
+    border-radius: 22px;
+    text-align: center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+}
+select {
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23fff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 10px) center;
+    background-size: 20px;
+}
+.currency-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.currency-container select {
+    width: 45%;
+}
+.arrow {
+    color: #fff;
+    font-size: 24px;
+    padding: 10px;
+}
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    position: relative;
+    background-color: #333;
+    border-radius: 25px;
+    padding: 3px;
+}
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 22px;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+.tab.active {
+    color: #333;
+}
+.tab-slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    background-color: #fff;
+    border-radius: 22px;
+    transition: all 0.3s ease;
+    width: calc(50% - 3px);
+    height: calc(100% - 6px);
+}
+.tab-content {
+    display: none;
+    background-color: black;
+}
+.tab-content.active {
+    display: block;
+}
+.result {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #000;
+    border-radius: 22px;
+    display: none;
+    border: 2px solid #4CAF50;
+    animation: borderColorChange 1s forwards;
+}
+.result.show {
+    display: block;
+}
+@keyframes borderColorChange {
+    from {
+        border-color: #4CAF50;
+    }
+    to {
+        border-color: #fff;
+    }
+}
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+input#amount {
+    width: 100%;
+    margin: 0 auto 20px auto;
+    display: block;
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #45a049;
+    color: white;
+    border: none;
+    border-radius: 23px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 0 8px rgba(72, 255, 72, 0.4), 0 0 8px rgba(72, 255, 72, 0.4), 0 0 8px rgba(72, 255, 72, 0.4);
+    transition: background-color 0.1s ease, box-shadow 0.2s ease;
+}
+button:hover {
+    background-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(72, 255, 72, 0.4), 0 0 10px rgba(72, 255, 72, 0.4), 0 0 10px rgba(72, 255, 72, 0.4);
+}
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        min-height: auto;
+    }
+    select, input, button {
+        padding: 12px;
+        font-size: 16px;
+    }
+    .currency-container select {
+        width: 40%;
+    }
+    .arrow {
+        font-size: 20px;
+    }
+}
+.currency-symbol {
+    position: absolute;
+    font-size: 24px;
+    color: #02ff5e; /* Изменен цвет символов */
+    animation: flyUp 1s forwards;
+}
+@keyframes flyUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
