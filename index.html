@@ -15,7 +15,7 @@
             display: flex;
             justify-content: flex-start; /* Изменено с center на flex-start */
             align-items: start;
-            overflow: hidden; /* Запрет прокрутки */
+            /*overflow: hidden; /* Запрет прокрутки */
         }
         .container {
             border-radius: 10px;
@@ -217,15 +217,15 @@
         </div>
         <div class="currency-container">
             <select id="fromCurrency">
-                <option value="RUB">Рубли (RUB)</option>
+                <option value="RUB" selected>Рубли (RUB)</option>
                 <option value="THB">Баты (THB)</option>
                 <option value="USD">Доллары (USD)</option>
                 <option value="EUR">Евро (EUR)</option>
             </select>
             <span class="arrow">→</span>
             <select id="toCurrency">
+                <option value="THB" selected>Баты (THB)</option>
                 <option value="RUB">Рубли (RUB)</option>
-                <option value="THB">Баты (THB)</option>
                 <option value="USD">Доллары (USD)</option>
                 <option value="EUR">Евро (EUR)</option>
             </select>
@@ -379,7 +379,7 @@
                     logoCube.style.transform = 'scale(1)';
                 }, 200);
 
-                const currencySymbols = ['$', '€', '¥', '£'];
+                const currencySymbols = ['$', '€', '¥', '£', '₽'];
                 const symbol = currencySymbols[Math.floor(Math.random() * currencySymbols.length)];
                 const symbolElement = document.createElement('div');
                 symbolElement.classList.add('currency-symbol');
