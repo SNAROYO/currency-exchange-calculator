@@ -129,7 +129,7 @@ let cachedRates = {};
 
 async function fetchRates() {
     try {
-        const response = await fetch('http://localhost:5000/get_rates');
+        const response = await fetch('http://147.45.237.41');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
