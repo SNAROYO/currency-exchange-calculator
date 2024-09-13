@@ -259,4 +259,8 @@ const updatePlaceholder = () => {
 };
 
 fromCurrencySelect.addEventListener('change', updatePlaceholder);
-document.addEventListener('DOMContentLoaded', updatePlaceholder);
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchRates();
+    setInterval(fetchRates, 60000); // Обновляем курсы каждую минуту
+    updatePlaceholder();
+});
