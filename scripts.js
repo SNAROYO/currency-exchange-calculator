@@ -134,8 +134,8 @@ async function fetchRates() {
 }
 
 async function calculateExchange() {
-    if (navigator.vibrate) {
-        navigator.vibrate(50); // короткая вибрация
+    if (Telegram.WebApp.HapticFeedback) {
+        Telegram.WebApp.HapticFeedback.impactOccurred('light'); // короткая вибрация
     }
     const fromCurrency = document.getElementById('fromCurrency').value;
     const toCurrency = document.getElementById('toCurrency').value;
@@ -212,8 +212,8 @@ logoCube.addEventListener('click', () => {
     }, 200);
     
     // Добавляем вибрацию при нажатии на логотип куба
-    if (navigator.vibrate) {
-        navigator.vibrate(50); // короткая вибрация
+    if (Telegram.WebApp.HapticFeedback) {
+        Telegram.WebApp.HapticFeedback.impactOccurred('light'); // короткая вибрация
     }
 
     const currencySymbols = ['$', '€', '¥', '£', '₽'];
@@ -255,8 +255,8 @@ logoCube.addEventListener('click', () => {
             }
             clickCount = 0;
                 // Добавляем более сильную и долгую вибрацию при 10 нажатиях на куб
-            if (navigator.vibrate) {
-                navigator.vibrate([100, 50, 100]); // вибрация с паузой
+            if (Telegram.WebApp.HapticFeedback) {
+                Telegram.WebApp.HapticFeedback.impactOccurred('heavy'); // вибрация с паузой
             }
         }, 500);
     }
