@@ -134,6 +134,9 @@ async function fetchRates() {
 }
 
 async function calculateExchange() {
+    if (navigator.vibrate) {
+        navigator.vibrate(50); // короткая вибрация
+    }
     const fromCurrency = document.getElementById('fromCurrency').value;
     const toCurrency = document.getElementById('toCurrency').value;
     const paymentMethod = document.querySelector('.tab.active').dataset.tab;
@@ -207,6 +210,11 @@ logoCube.addEventListener('click', () => {
     setTimeout(() => {
         logoCube.style.transform = 'scale(1)';
     }, 200);
+    
+    // Добавляем вибрацию при нажатии на логотип куба
+    if (navigator.vibrate) {
+        navigator.vibrate(50); // короткая вибрация
+    }
 
     const currencySymbols = ['$', '€', '¥', '£', '₽'];
     const symbol = currencySymbols[Math.floor(Math.random() * currencySymbols.length)];
@@ -246,6 +254,10 @@ logoCube.addEventListener('click', () => {
                 }, i * 50);
             }
             clickCount = 0;
+                // Добавляем более сильную и долгую вибрацию при 10 нажатиях на куб
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]); // вибрация с паузой
+            }
         }, 500);
     }
 });
