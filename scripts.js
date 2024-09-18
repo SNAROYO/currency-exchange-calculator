@@ -256,7 +256,7 @@ logoCube.addEventListener('click', () => {
             clickCount = 0;
                 // Добавляем более сильную и долгую вибрацию при 10 нажатиях на куб
             if (Telegram.WebApp.HapticFeedback) {
-                Telegram.WebApp.HapticFeedback.impactOccurred('warning'); // вибрация с паузой
+                Telegram.WebApp.HapticFeedback.impactOccurred('heavy'); // вибрация с паузой
             }
         }, 500);
     }
