@@ -111,8 +111,10 @@ tabs.forEach(tab => {
         tab.classList.add('active');
         document.getElementById(tab.dataset.tab + 'Content').classList.add('active');
         updateTabSlider(tab);
+        if (Telegram.WebApp.HapticFeedback) {
+            Telegram.WebApp.HapticFeedback.impactOccurred('light'); // короткая вибрация
+        }
     });
-
     if (tab.classList.contains('active')) {
         updateTabSlider(tab);
     }
