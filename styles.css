@@ -153,12 +153,12 @@ button {
     border-radius: 23px;
     cursor: pointer;
     font-size: 18px;
-    box-shadow: 0 0 8px rgba(72, 255, 72, 0.4);
+    box-shadow: 0 0 15px rgba(72, 255, 72, 0.6);
     transition: background-color 0.1s ease, box-shadow 0.2s ease;
 }
 button:hover {
     background-color: #4CAF50;
-    box-shadow: 0 0 10px rgba(72, 255, 72, 0.4);
+    box-shadow: 0 0 20px rgba(72, 255, 72, 0.7);
 }
 @media (max-width: 600px) {
     .container {
