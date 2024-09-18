@@ -25,6 +25,10 @@ body {
     overflow-y: auto; /* Добавляем прокрутку для контейнера */
     background-color: rgba(0, 0, 0, 0.8); /* Добавляем фон для контейнера */
 }
+html, body {
+    height: 100%;
+    overflow: hidden; /* Отключаем прокрутку для html и body */
+}
 .logo-container {
     position: relative;
     display: flex;
