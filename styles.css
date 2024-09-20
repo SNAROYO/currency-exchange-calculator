@@ -8,7 +8,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center; 
-    overflow: hidden; 
+    overflow: auto; 
     align-items: start;
 }
 .container {
@@ -18,11 +18,11 @@ body {
     max-width: 400px;
     width: 100%;
     margin: 0 20px;
-/*     position: relative; */
+    position: relative;
     z-index: 1;
     min-height: 1000px;
     margin-top: 20px;
-    overflow-y: scroll; /* Добавляем прокрутку для контейнера */
+    overflow-y: auto; /* Добавляем прокрутку для контейнера */
 }
 html, body {
     height: 100%;
