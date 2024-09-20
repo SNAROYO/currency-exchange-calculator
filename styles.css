@@ -22,7 +22,7 @@ body {
     z-index: 1;
     min-height: 1000px;
     margin-top: 20px;
-    overflow-y: auto; /* Добавляем прокрутку для контейнера */
+    overflow-y: scroll; /* Добавляем прокрутку для контейнера */
 }
 html, body {
     height: 100%;
