@@ -8,6 +8,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: start;
+    overflow: hidden;
 }
 .container {
     border-radius: 10px;
@@ -21,6 +22,7 @@ body {
     z-index: 1;
     min-height: 1000px;
     margin-top: 20px;
+    overflow: auto;
 }
 
 .logo-container {
