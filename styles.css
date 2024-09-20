@@ -7,8 +7,9 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    align-items: center; 
+    overflow: hidden; 
+    align-items: start;
 }
 .container {
     border-radius: 10px;
@@ -16,11 +17,16 @@ body {
     padding-bottom: 50%;
     max-width: 400px;
     width: 100%;
-    margin: 20px;
+    margin: 0 20px;
     position: relative;
     z-index: 1;
     min-height: 1000px;
     margin-top: 20px;
+    overflow-y: auto; /* Добавляем прокрутку для контейнера */
+}
+html, body {
+    height: 100%;
+    overflow: hidden; /* Отключаем прокрутку для html и body */
 }
 .logo-container {
     position: relative;
