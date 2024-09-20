@@ -9,6 +9,7 @@ body {
     justify-content: center;
     align-items: start;
     overflow: hidden;
+    position: relative;
 }
 .container {
     border-radius: 10px;
@@ -21,8 +22,9 @@ body {
     position: relative;
     z-index: 1;
     min-height: 1000px;
+    min-height: 100vh;
     margin-top: 20px;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .logo-container {
