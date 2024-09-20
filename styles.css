@@ -8,7 +8,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center; 
-    overflow: auto; 
     align-items: start;
 }
 .container {
@@ -25,8 +24,9 @@ body {
     overflow-y: auto; /* Добавляем прокрутку для контейнера */
 }
 html, body {
+    position: sticky;
     height: 100%;
-    overflow: auto; /* Отключаем прокрутку для html и body */
+    overflow: hidden; /* Отключаем прокрутку для html и body */
 }
 .logo-container {
     position: relative;
