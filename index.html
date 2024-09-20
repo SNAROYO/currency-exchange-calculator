@@ -3,46 +3,47 @@
 <head>
     <base href="Mury Calculator">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0"/>
-    <meta name="sec" http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
-    <meta http-equiv="Content-Security-Policy" content="block-all-mixed-content">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="particles-js"></div>
-    <div class="container">
-        <div class="logo-container">
-            <img src="cube.png" alt="Куб" class="logo-cube" id="logoCube">
-            <img src="text.png" alt="Текст" class="logo-text">
+    <div class="scrollable-container">
+        <div class="container">
+            <div class="logo-container">
+                <img src="cube.png" alt="Куб" class="logo-cube" id="logoCube">
+                <img src="text.png" alt="Текст" class="logo-text">
+            </div>
+            <div class="currency-container">
+                <select id="fromCurrency">
+                    <option value="RUB" selected>Рубли</option>
+                    <option value="THB">Баты</option>
+                    <option value="USD">Доллары</option>
+                    <option value="EUR">Евро</option>
+                </select>
+                <span class="arrow">→</span>
+                <select id="toCurrency">
+                    <option value="THB" selected>Баты</option>
+                    <option value="RUB">Рубли</option>
+                    <option value="USD">Доллары</option>
+                    <option value="EUR">Евро</option>
+                </select>
+            </div>
+            <div id="paymentMethodText" style="text-align: center; margin-bottom: 10px;">Я сделаю перевод на карту</div>
+            <div class="tabs" style="background-color: black; border: 2px solid #fff;">
+                <div class="tab active" data-tab="transfer">Перевод</div>
+                <div class="tab" data-tab="cash">Наличные</div>
+                <div class="tab-slider"></div>
+            </div>
+            <div id="transferContent" class="tab-content active"></div>
+            <div id="cashContent" class="tab-content"></div>
+            <div style="position: relative;">
+                <input type="text" id="amount" placeholder="Введите сумму" style="background-color: #000; border: 2px solid #fff; color: #fff; text-align: center; font-size: 15px;" inputmode="numeric" pattern="[0-9]*">
+            </div>
+            <button onclick="calculateExchange()">Рассчитать</button>
+            <div id="result" class="result"></div>
         </div>
-        <div class="currency-container">
-            <select id="fromCurrency">
-                <option value="RUB" selected>Рубли</option>
-                <option value="THB">Баты</option>
-                <option value="USD">Доллары</option>
-                <option value="EUR">Евро</option>
-            </select>
-            <span class="arrow">→</span>
-            <select id="toCurrency">
-                <option value="THB" selected>Баты</option>
-                <option value="RUB">Рубли</option>
-                <option value="USD">Доллары</option>
-                <option value="EUR">Евро</option>
-            </select>
-        </div>
-        <div id="paymentMethodText" style="text-align: center; margin-bottom: 10px;">Я сделаю перевод на карту</div>
-        <div class="tabs" style="background-color: black; border: 2px solid #fff;">
-            <div class="tab active" data-tab="transfer">Перевод</div>
-            <div class="tab" data-tab="cash">Наличные</div>
-            <div class="tab-slider"></div>
-        </div>
-        <div id="transferContent" class="tab-content active"></div>
-        <div id="cashContent" class="tab-content"></div>
-        <div style="position: relative;">
-            <input type="text" id="amount" placeholder="Введите сумму" style="background-color: #000; border: 2px solid #fff; color: #fff; text-align: center; font-size: 15px;" inputmode="numeric" pattern="[0-9]*">
-        </div>
-        <button onclick="calculateExchange()">Рассчитать</button>
-        <div id="result" class="result"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="scripts.js"></script>
